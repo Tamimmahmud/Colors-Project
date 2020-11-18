@@ -41,6 +41,7 @@ function randomColors() {
         
         colorizeSliders(color,hue,brigtness,saturation);    
     });
+    resetInputs();
 }
 
 //Generate random color using chroma.js and return hexColor
@@ -121,6 +122,28 @@ function updateTextUI(index) {
         checkTextContrast(color,icon);
     }
 
+}
+
+function resetInputs() {
+    const sliders = document.querySelectorAll('.sliders input');
+    sliders.forEach(slider => {
+        if(slider.name === "hue") {
+            const hueColor = initialcolors[slider.getAttribute('data-hue')];
+            const hueValue = chroma(hueColor).hsl()[0];
+            slider.value = Math.floor(hueValue);
+            
+        }
+        if(slider.name === "brightness") {
+            const brightColor = initialcolors[slider.getAttribute('data-bright')];
+            const brightValue = chroma(brightColor).hsl()[2];
+            slider.value = Math.floor(brightValue*100) /100;
+        }
+        if(slider.name === "saturation") {
+            const satColor = initialcolors[slider.getAttribute('data-sat')];
+            const satValue = chroma(satColor).hsl()[1];
+            slider.value = Math.floor(satValue*100) /100;
+        }
+    })
 }
 
 randomColors();
