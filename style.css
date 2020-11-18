@@ -43,16 +43,17 @@ svg {
   flex-direction: column;
   position: absolute;
   bottom: 0%;
-  padding: 1rem;
-  width: 80%;
+  padding: 0.5rem;
+  width: 90%;
   border-top-left-radius: 1rem;
   border-top-right-radius: 1rem;
 
   /* Adding adjustment class */
   background: rgb(255, 255, 255);
-  /* pointer-events: none; */
-  /* opacity: 0; */
-  /* transform: translateY(100px); */
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(100px);
+  transition: all 450ms ease-in;
 }
 
 input[type="range"] {
@@ -65,7 +66,6 @@ input[type="range"] {
   background-color: aquamarine;
   /* color: gray; */
   outline: none;
-  /* transition: background 450ms ease-in; */
 }
 input[type="range"]::-webkit-slider-thumb {
   -webkit-appearance: none;
@@ -82,6 +82,7 @@ input[type="range"]::-webkit-slider-thumb {
   opacity: 1;
   transform: translateY(0);
   pointer-events: all;
+  transition: transform 450ms ease-in;
 }
 
 .sliders button {
@@ -153,6 +154,7 @@ input[type="range"]::-webkit-slider-thumb {
   display: flex;
   justify-content: center;
   align-items: center;
+  transition: all 0.8s ease-in-out;
 
   opacity: 0;
   pointer-events: none;
@@ -172,7 +174,7 @@ input[type="range"]::-webkit-slider-thumb {
   border-radius: 2rem;
   min-height: 20%;
   min-width: 30%;
-  transition: transform 0.5s ease;
+  transition: transform 0.8s ease;
   transform: translateY(-2rem);
 }
 
