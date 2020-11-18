@@ -12,7 +12,7 @@ sliders.forEach(slider => {
 
 colorDivs.forEach((div, index) => {
     div.addEventListener("change", () => {
-    updateTextUI(index)
+    updateTextUI(index); 
     })
 })
 
@@ -20,9 +20,12 @@ colorDivs.forEach((div, index) => {
 
 // generates random colors and assigns to all blocks
 function randomColors() {
+    // empty array, to store the color values
+    initialcolors =[];
     colorDivs.forEach((div, index) => {
         const hexText = div.children[0];
         const randomColor = generateHex();
+        initialcolors.push(chroma(randomColor).hex());
 
         // Add color to div style
         div.style.backgroundColor = randomColor;
@@ -91,7 +94,7 @@ function hslcontrols(e) {
     const saturation = sliders[2];
 
     //find current bgColor from the h2 of the div
-    const bgColor = colorDivs[index].querySelector("h2").innerText;
+    const bgColor = initialcolors[index];
 
     // change the bgColor's hsl(hue,saturation, lightness) properties according to the input from the sliders
     let color = chroma(bgColor)
@@ -114,7 +117,6 @@ function updateTextUI(index) {
     textHex.innerText = color;
     // check and change text and controls color to contrast with the bg color of the color block
     checkTextContrast(color,textHex);
-    console.log(icons)
     for(icon of icons) {
         checkTextContrast(color,icon);
     }
