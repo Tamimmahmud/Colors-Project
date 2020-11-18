@@ -3,6 +3,7 @@ const colorDivs = document.querySelectorAll('.color')
 const generateBtn = document.querySelector('.generate')
 const sliders = document.querySelectorAll('input[type="range"]');
 const currentHexes = document.querySelectorAll('.color h2');
+const popup = document.querySelector('.copy-container')
 let initialcolors;
 
 // Event Listeners
@@ -14,6 +15,20 @@ colorDivs.forEach((div, index) => {
     div.addEventListener("change", () => {
     updateTextUI(index); 
     })
+})
+
+//copies hex codes when clicked on h2
+currentHexes.forEach(hex => {
+    hex.addEventListener('click', ()=> {
+        copyToClipboard(hex);
+    })
+})
+
+//close copy popup after animation end
+popup.addEventListener('transitionend', ()=> {
+    const popupBox = popup.children[0];
+    popupBox.classList.remove('active');
+    popup.classList.remove('active');
 })
 
 // Functions
@@ -105,6 +120,9 @@ function hslcontrols(e) {
 
     //set the new color to the bgColor of the div
     colorDivs[index].style.backgroundColor = color;
+
+    //update slider/input colors
+    colorizeSliders(color,hue,brightness,saturation);
     
 }
 
@@ -144,6 +162,20 @@ function resetInputs() {
             slider.value = Math.floor(satValue*100) /100;
         }
     })
+}
+
+function copyToClipboard(hex) {
+    const el = document.createElement('textarea');
+    el.value = hex.innerText;
+    document.body.appendChild(el);
+    el.select();
+    document.execCommand('copy');
+    el.remove();
+
+    //popup animation
+    const popupBox = popup.children[0];
+    popup.classList.add('active');
+    popupBox.classList.add('active');
 }
 
 randomColors();
