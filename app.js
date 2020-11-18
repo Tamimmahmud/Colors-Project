@@ -10,8 +10,15 @@ sliders.forEach(slider => {
     slider.addEventListener("input", hslcontrols)
 });
 
+colorDivs.forEach((div, index) => {
+    div.addEventListener("change", () => {
+    updateTextUI(index)
+    })
+})
+
 // Functions
 
+// generates random colors and assigns to all blocks
 function randomColors() {
     colorDivs.forEach((div, index) => {
         const hexText = div.children[0];
@@ -69,6 +76,7 @@ function colorizeSliders(color,hue,brigtness,saturation) {
     
 }
 
+// main purpose is to change the background color of the active color block to correspond with the slider values
 function hslcontrols(e) {
     //finds which div you are selecting the input slider on (0-5) and assign it to index
     const index = 
@@ -93,8 +101,24 @@ function hslcontrols(e) {
 
     //set the new color to the bgColor of the div
     colorDivs[index].style.backgroundColor = color;
-    colorDivs[index].querySelector('h2').innerText = color;
     
+}
+
+// update color block h2 Text, contrast after changing slider values
+function updateTextUI(index) {
+    const activeDiv = colorDivs[index];
+    const color = chroma(activeDiv.style.backgroundColor).hex();
+    const textHex = activeDiv.querySelector('h2');
+    const icons = activeDiv.querySelectorAll('.controls button');
+    //set h2 value to the background.
+    textHex.innerText = color;
+    // check and change text and controls color to contrast with the bg color of the color block
+    checkTextContrast(color,textHex);
+    console.log(icons)
+    for(icon of icons) {
+        checkTextContrast(color,icon);
+    }
+
 }
 
 randomColors();
