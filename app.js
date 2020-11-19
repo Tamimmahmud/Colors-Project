@@ -43,6 +43,8 @@ closeAdjustments.forEach((button,index) => {
     button.addEventListener('click',() => {closeAdjustmentPanel(index)})
 })
 
+generateBtn.addEventListener('click', randomColors)
+
 // Functions
 
 // generates random colors and assigns to all blocks
@@ -52,6 +54,7 @@ function randomColors() {
     colorDivs.forEach((div, index) => {
         const hexText = div.children[0];
         const randomColor = generateHex();
+        const icons = div.querySelectorAll('.controls button');
         initialcolors.push(chroma(randomColor).hex());
 
         // Add color to div style
@@ -59,6 +62,10 @@ function randomColors() {
         hexText.innerText = randomColor;
         // Check for contrast
         checkTextContrast(randomColor,hexText);
+        for(icon of icons) {
+            checkTextContrast(randomColor, icon);
+        }
+    
         // Initial Colorize Sliders
         const color = chroma(randomColor);
         const sliderInputs = div.querySelectorAll('.sliders input');
