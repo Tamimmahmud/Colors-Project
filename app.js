@@ -7,6 +7,7 @@ const popup = document.querySelector('.copy-container')
 const adjustButton = document.querySelectorAll('.adjust');
 const closeAdjustments = document.querySelectorAll('.close-adjustment');
 const sliderContainers = document.querySelectorAll('.sliders');
+const lockBtns = document.querySelectorAll('.lock');
 let initialcolors;
 
 // Event Listeners
@@ -45,6 +46,12 @@ closeAdjustments.forEach((button,index) => {
 
 generateBtn.addEventListener('click', randomColors)
 
+//lock feature
+lockBtns.forEach(lock => {
+    lock.addEventListener('click',(e) => lockColor(e))
+})
+
+
 // Functions
 
 // generates random colors and assigns to all blocks
@@ -55,7 +62,15 @@ function randomColors() {
         const hexText = div.children[0];
         const randomColor = generateHex();
         const icons = div.querySelectorAll('.controls button');
+
+        if(div.classList.contains('locked')) {
+            initialcolors.push(hexText.innerText);
+            return;
+        }
+        else {
+            
         initialcolors.push(chroma(randomColor).hex());
+        }
 
         // Add color to div style
         div.style.backgroundColor = randomColor;
@@ -203,6 +218,14 @@ function openAdjustmentPanel(index) {
 
 function closeAdjustmentPanel(index) {
     sliderContainers[index].classList.remove('active');
+}
+
+function lockColor(e) {
+    const lock = e.target;
+    lock.children[0].classList.toggle('fa-lock-open');
+    lock.children[0].classList.toggle('fa-lock');
+    const activeDiv = lock.parentNode.parentNode;
+    activeDiv.classList.toggle('locked');
 }
 randomColors();
 
