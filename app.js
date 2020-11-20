@@ -3,15 +3,16 @@ const colorDivs = document.querySelectorAll('.color')
 const generateBtn = document.querySelector('.generate')
 const sliders = document.querySelectorAll('input[type="range"]');
 const currentHexes = document.querySelectorAll('.color h2');
-const popup = document.querySelector('.copy-container')
+const copyPopup = document.querySelector('.copy-container')
 const adjustButton = document.querySelectorAll('.adjust');
 const closeAdjustments = document.querySelectorAll('.close-adjustment');
 const sliderContainers = document.querySelectorAll('.sliders');
 const lockBtns = document.querySelectorAll('.lock');
 let initialcolors;
-
 //Local storage
 let savedPalettes = [];
+
+
 // Event Listeners
 sliders.forEach(slider => {
     slider.addEventListener("input", hslcontrols)
@@ -31,10 +32,10 @@ currentHexes.forEach(hex => {
 })
 
 //close copy popup after animation end
-popup.addEventListener('transitionend', ()=> {
-    const popupBox = popup.children[0];
+copyPopup.addEventListener('transitionend', ()=> {
+    const popupBox = copyPopup.children[0];
     popupBox.classList.remove('active');
-    popup.classList.remove('active');
+    copyPopup.classList.remove('active');
 })
 
 //adjustment panel open on clicking adjustment button
@@ -209,8 +210,8 @@ function copyToClipboard(hex) {
     el.remove();
 
     //popup animation
-    const popupBox = popup.children[0];
-    popup.classList.add('active');
+    const popupBox = copyPopup.children[0];
+    copyPopup.classList.add('active');
     popupBox.classList.add('active');
 }
 
@@ -236,11 +237,18 @@ const submitSave = document.querySelector('.submit-save');
 const closeSave = document.querySelector('.close-save');
 const saveContainer = document.querySelector('.save-container');
 const saveInput = document.querySelector('.save-container input');
+const libraryContainer = document.querySelector('.library-container');
+const libraryBtn = document.querySelector('.library');
+const closeLibraryBtn = document.querySelector('.close-library');
+
 
 //event listener
 
 saveBtn.addEventListener('click', openPalette);
-closeSave.addEventListener('click', closeSavePalette)
+closeSave.addEventListener('click', closeSavePalette);
+submitSave.addEventListener('click', savePalette);
+libraryBtn.addEventListener('click', openLibrary);
+closeLibraryBtn.addEventListener('click', closeLibrary)
 
 
 //functions
@@ -251,11 +259,98 @@ function openPalette(e) {
     
 }
 
-function closeSavePalette() {
+function closeSavePalette(e) {
     const popup = saveContainer.children[0];
     saveContainer.classList.remove('active');
     popup.classList.remove('active');
 }
+
+function openLibrary(e) {
+    const popup = libraryContainer.children[0];
+    libraryContainer.classList.add('active');
+    popup.classList.add('active');
+
+}
+
+function closeLibrary(e) {
+    const popup = libraryContainer.children[0];
+    libraryContainer.classList.remove('active');
+    popup.classList.remove('active');
+    
+}
+//close palette, sends message with name of palette, 
+// creates new array of colors and store all colors to it
+function savePalette(e) {
+    const popup = saveContainer.children[0];
+    const paletteName = saveInput.value;
+    const colors = [];
+    saveContainer.classList.remove('active');
+    popup.classList.remove('active');
+
+    currentHexes.forEach(hex => {
+        colors.push(hex.innerText);
+    })
+
+    //palette number
+    let paletteNr = savedPalettes.length;
+    //create a JSON object with details of the palette
+    const paletteObj = {
+        name: paletteName,
+        colors,
+        nr: paletteNr,
+    }
+    //push the palette to the savedPalettes array
+    savedPalettes.push(paletteObj);
+
+    //save them to local storage
+    savetoLocal(paletteObj);
+    saveInput.value = "";
+
+    //generate palette for library
+    const palette = document.createElement('div');
+    palette.classList.add('custom-palette');
+    const title = document.createElement('h4');
+    title.innerText = paletteObj.name;
+    
+    const preview = document.createElement('div');
+    preview.classList.add('small-preview');
+    colors.forEach((color,index) => {
+        const smallColor= document.createElement('div');
+        smallColor.style.background = color;
+        smallColor.classList.add('small-color');
+        preview.appendChild(smallColor);
+        
+
+    });
+
+    const pickColorBtn = document.createElement('button');
+    pickColorBtn.classList.add(paletteNr);
+    pickColorBtn.innerText = "Select";
+    
+    palette.appendChild(title);    
+    palette.appendChild(preview);
+    palette.appendChild(pickColorBtn);
+    
+    const libaryPopup = libraryContainer.children[0];
+    libaryPopup.appendChild(palette);
+
+    console.log(palette);
+}
+
+function savetoLocal(paletteObj) {
+    let localPalettes;
+    if(localStorage.getItem('palettes') ===null){
+        localPalettes = [];
+    }
+    else{
+        //parse is used as the value is stored as strings
+        localPalettes = JSON.parse(localStorage.getItem('palettes'));
+    }
+    localPalettes.push(paletteObj);
+    //localStorage.setItem('key','string value');
+    localStorage.setItem('palettes',JSON.stringify(localPalettes))
+}
+
 
 randomColors();
 

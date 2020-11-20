@@ -86,7 +86,8 @@ input[type="range"]::-webkit-slider-thumb {
 }
 
 .sliders button,
-.save-popup .close-save {
+.save-popup .close-save,
+.close-library {
   position: absolute;
   top: 0;
   right: 0;
@@ -212,4 +213,39 @@ input[type="range"]::-webkit-slider-thumb {
   background: rgb(60, 60, 110);
   color: white;
   border-radius: 0.5rem;
+}
+
+.library-popup {
+  overflow-y: scroll;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+
+.custom-palette {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  margin: 1rem;
+  align-items: center;
+}
+
+.small-preview {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+.small-color {
+  height: 1rem;
+  width: 1rem;
+  border-radius: 5px;
+  margin: 1px;
+}
+
+.custom-palette button {
+  padding: 5px;
+  font-size: 0.8rem;
+  background: rgb(60, 60, 110);
+  color: white;
+  border-radius: 5px;
 }
