@@ -219,7 +219,8 @@ input[type="range"]::-webkit-slider-thumb {
   overflow-y: scroll;
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
+  justify-content: flex-start;
+  max-height: 50vh;
 }
 
 .custom-palette {
@@ -240,12 +241,4 @@ input[type="range"]::-webkit-slider-thumb {
   width: 1rem;
   border-radius: 5px;
   margin: 1px;
-}
-
-.custom-palette button {
-  padding: 5px;
-  font-size: 0.8rem;
-  background: rgb(60, 60, 110);
-  color: white;
-  border-radius: 5px;
 }
