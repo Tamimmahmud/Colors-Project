@@ -242,3 +242,12 @@ input[type="range"]::-webkit-slider-thumb {
   border-radius: 5px;
   margin: 1px;
 }
+
+.custom-palette button {
+  margin: none;
+  border: none;
+  padding: 0.5rem 1rem;
+  background: rgb(60, 60, 110);
+  color: white;
+  border-radius: 0.5rem;
+}
